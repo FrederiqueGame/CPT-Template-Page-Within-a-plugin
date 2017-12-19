@@ -33,8 +33,6 @@ if ( ! defined( 'COL_PLUGIN_URL' ) )
  Post Type Key: activite
 --------------------------------------------------------------------------
 */
-
-register_activation_hook( __FILE__, 'flush_rewrite_rules' );
 	
 function color_activite_cpt() {
 
@@ -89,12 +87,9 @@ function color_activite_cpt() {
 	);
 	
 	register_post_type( 'activite', $args );
-	flush_rewrite_rules();
-
 }
 
 add_action( 'init', 'color_activite_cpt', 0 );
-
 
 /*
 --------------------------------------------------------------------------
