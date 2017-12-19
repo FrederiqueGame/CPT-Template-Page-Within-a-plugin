@@ -34,9 +34,9 @@ if ( ! defined( 'COL_PLUGIN_URL' ) )
 --------------------------------------------------------------------------
 */
 
-add_action( 'init', 'color_activite_cpt', 0 );	
+add_action( 'init', 'cmw_color_activite_cpt', 0 );	
 	
-function color_activite_cpt() {
+function cmw_color_activite_cpt() {
 
 	$labels = array(
 		'name' => __( 'Activites', 'Post Type General Name', 'activity' ),
@@ -94,9 +94,9 @@ function color_activite_cpt() {
 
 // Flushing Rewrite on Activation, see : https://codex.wordpress.org/Function_Reference/register_post_type
 
-function my_rewrite_flush() {
+function cmw_color_rewrite_flush() {
 
-    color_activite_cpt();
+    cmw_color_activite_cpt(); // name of the CPT
 
     // ATTENTION: This is *only* done during plugin activation hook in this example!
     // You should *NEVER EVER* do this on every page load!!
@@ -104,7 +104,8 @@ function my_rewrite_flush() {
     flush_rewrite_rules();
 }
 
-register_activation_hook( __FILE__, 'my_rewrite_flush' );
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+register_activation_hook( __FILE__, 'cmw_color_rewrite_flush' );
 
 
 /*
@@ -113,8 +114,8 @@ register_activation_hook( __FILE__, 'my_rewrite_flush' );
 --------------------------------------------------------------------------
 */
 
-add_filter( 'template_include', 'col_page_template' );
-function col_page_template( $page_template ) {
+add_filter( 'template_include', 'cmw_color_page_template' );
+function cmw_color_page_template( $page_template ) {
     if ( is_singular( 'activite' ) ) {
         $page_template = dirname( __FILE__ ) . '/templates/cpt-activites.php';
     }
