@@ -33,6 +33,8 @@ if ( ! defined( 'COL_PLUGIN_URL' ) )
  Post Type Key: activite
 --------------------------------------------------------------------------
 */
+
+add_action( 'init', 'color_activite_cpt', 0 );	
 	
 function color_activite_cpt() {
 
@@ -87,9 +89,23 @@ function color_activite_cpt() {
 	);
 	
 	register_post_type( 'activite', $args );
+
 }
 
-add_action( 'init', 'color_activite_cpt', 0 );
+// Flushing Rewrite on Activation, see : https://codex.wordpress.org/Function_Reference/register_post_type
+
+function my_rewrite_flush() {
+
+    color_activite_cpt();
+
+    // ATTENTION: This is *only* done during plugin activation hook in this example!
+    // You should *NEVER EVER* do this on every page load!!
+    
+    flush_rewrite_rules();
+}
+
+register_activation_hook( __FILE__, 'my_rewrite_flush' );
+
 
 /*
 --------------------------------------------------------------------------
